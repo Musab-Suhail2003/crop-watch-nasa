@@ -1,0 +1,21 @@
+# Render Blueprint for the Crop-Watch AI backend (FastAPI in Docker).
+# Render dashboard -> New -> Blueprint -> pick this repository. See docs/deploy.md.
+services:
+  - type: web
+    name: crop-watch-api
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      # JSON list of the frontend addresses allowed to call this API, e.g.
+      # ["https://crop-watch-ai.vercel.app"]. Set it in the dashboard after the Vercel deploy.
+      - key: CORS_ORIGINS
+        sync: false
+      # Pre-load NASA weather and soil for the four demo districts at start-up, so the sample farm opens fast.
+      - key: WARM_UP_DEMO_DISTRICTS
+        value: "true"
