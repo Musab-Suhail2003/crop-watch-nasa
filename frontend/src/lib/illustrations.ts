@@ -1,4 +1,4 @@
-import type { CropName } from "../types";
+import type { CropName, RiskType } from "../types";
 
 /**
  * Picture cut-outs for farmers who read pictures faster than words.
@@ -35,4 +35,13 @@ export const CROP_IMAGE: Record<CropName, string> = {
   maize: img("maize"),
   mung_bean: img("mung_bean"),
   berseem: img("berseem"),
+};
+
+/** Picture for each kind of weather risk (no snowflake in the set, so cold uses sun-behind-cloud). */
+export const RISK_IMAGE: Record<RiskType, string> = {
+  heat: ILLUSTRATIONS.thermometer,
+  cold: ILLUSTRATIONS.climate,
+  drought: ILLUSTRATIONS.sun,
+  waterlogging: ILLUSTRATIONS.rain,
+  disease: ILLUSTRATIONS.warning,
 };

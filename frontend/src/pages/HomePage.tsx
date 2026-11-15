@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ChatbotButton from "../components/ChatbotButton";
 import { LocationPicker } from "../components/common";
 import MapPicker from "../components/MapPicker";
 import { useDashboardData } from "../hooks/useDashboardData";
@@ -14,6 +15,23 @@ import CompareView from "./CompareView";
 import DashboardView from "./DashboardView";
 import LearnView from "./LearnView";
 import ReportsView from "./ReportsView";
+
+/**
+ * Language menu. English and Urdu (draft tips) work today; the others are listed so farmers can see
+ * they are planned, but cannot be picked until their translations are added.
+ */
+const LANGUAGES: { code: string; name: string; ready: boolean; group: "Pakistan" | "International" }[] = [
+  { code: "en", name: "English", ready: true, group: "Pakistan" },
+  { code: "ur", name: "اردو · Urdu", ready: false, group: "Pakistan" },
+  { code: "pa", name: "پنجابی · Punjabi", ready: false, group: "Pakistan" },
+  { code: "sd", name: "سنڌي · Sindhi", ready: false, group: "Pakistan" },
+  { code: "skr", name: "سرائیکی · Saraiki", ready: false, group: "Pakistan" },
+  { code: "ps", name: "پښتو · Pashto", ready: false, group: "Pakistan" },
+  { code: "bal", name: "بلوچی · Balochi", ready: false, group: "Pakistan" },
+  { code: "es", name: "Español · Spanish", ready: false, group: "International" },
+  { code: "ar", name: "العربية · Arabic", ready: false, group: "International" },
+  { code: "zh", name: "中文 · Chinese", ready: false, group: "International" },
+];
 
 const PROVINCE: Record<string, string> = {
   Multan: "Punjab",
@@ -108,10 +126,17 @@ export default function HomePage() {
         </div>
         <div className="top-actions">
           <label className="lang">
-            <span className="sr-only">Tips language</span>
-            <select value={urdu ? "ur" : "en"} onChange={(e) => setUrdu(e.target.value === "ur")} title="Tips language">
-              <option value="en">English</option>
-              <option value="ur">اردو (draft)</option>
+            <span className="sr-only">Language</span>
+            <select value={urdu ? "ur" : "en"} onChange={(e) => setUrdu(e.target.value === "ur")} title="Language">
+              {(["Pakistan", "International"] as const).map((g) => (
+                <optgroup key={g} label={g}>
+                  {LANGUAGES.filter((l) => l.group === g).map((l) => (
+                    <option key={l.code} value={l.code} disabled={!l.ready}>
+                      {l.ready ? l.name : `${l.name} · coming soon`}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
             </select>
           </label>
           <button
@@ -256,7 +281,7 @@ export default function HomePage() {
             <ClimateInsightsView
               weather={dashboard.weather}
               history={history}
-              rotationName={`your current rotation (${dashboard.rotations.current.name})`}
+              rotationName={`your crops (${dashboard.rotations.current.name})`}
               location={location}
               urdu={urdu}
               header={farmLine}
@@ -272,6 +297,7 @@ export default function HomePage() {
           </footer>
         </main>
       </div>
+      <ChatbotButton />
     </div>
   );
 }

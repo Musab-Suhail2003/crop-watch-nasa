@@ -281,10 +281,100 @@ button.big-locate img { width: 26px; height: 26px; }
 .grace-word { font-weight: 700; font-size: 1.05rem; }
 .grace-word.down { color: var(--high); }
 .grace-word.up { color: var(--accent); }
-@media (max-width: 900px) { .farm-charts { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .farm-charts { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 560px) {
   button.big-locate { width: 100%; justify-content: center; }
   .layer-buttons { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .layer-btn { min-height: 86px; font-size: 0.82rem; }
   .layer-btn img { width: 36px; height: 36px; }
 }
+
+/* ---------- Weather page ---------- */
+.weather-page { display: grid; gap: 30px; grid-template-columns: minmax(0, 1fr); }
+.weather-page > * { min-width: 0; }
+.weather-page .welcome { margin-bottom: 0; }
+.year-total { display: flex; align-items: center; gap: 10px; margin: 8px 0 0; font-size: 1.05rem; }
+.year-total img { width: 36px; height: 36px; }
+
+/* "Is my crop safe this week?" */
+.quick { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+.quick > * { min-width: 0; }
+.quick-form { display: grid; gap: 16px; justify-items: start; }
+.crop-pick { display: grid; gap: 10px; width: 100%; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.quick-when { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px; }
+.quick-when .field { font-size: 1rem; color: var(--text); font-weight: 600; }
+.quick-when input, .quick-when select { min-height: 46px; font-size: 1rem; }
+.verdict { display: flex; align-items: center; gap: 18px; padding: 20px 22px; border-left: 8px solid var(--na); }
+.verdict.low { border-left-color: var(--low); background: var(--low-bg); }
+.verdict.moderate { border-left-color: var(--amber); background: var(--warn-bg); }
+.verdict.high { border-left-color: var(--high); background: var(--high-bg); }
+.verdict > img { width: 76px; height: 76px; flex: none; }
+.verdict strong { font-size: 1.45rem; font-family: "Rubik", "Montserrat", sans-serif; }
+.verdict p { margin: 4px 0 0; }
+.risk-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.risk-card { display: flex; gap: 14px; align-items: flex-start; padding: 16px; }
+.risk-card > img { width: 54px; height: 54px; flex: none; }
+.risk-card strong { display: block; font-size: 1.1rem; }
+.risk-card p { margin: 6px 0 0; font-size: 0.92rem; color: var(--muted); }
+.risk-word { display: inline-block; font-weight: 700; font-size: 0.9rem; }
+.risk-word.low { color: var(--low); }
+.risk-word.moderate { color: var(--moderate); }
+.risk-word.high { color: var(--high); }
+.risk-card .risk-word { margin-top: 2px; padding: 2px 10px; border-radius: 999px; background: var(--surface-2); }
+.tips .chart-title { align-items: center; }
+.week-strip { display: grid; gap: 8px; grid-template-columns: repeat(7, minmax(0, 1fr)); margin-bottom: 8px; }
+.day { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 4px; border-radius: 12px; background: var(--surface-2); text-align: center; }
+.day img { width: 36px; height: 36px; }
+.day strong { font-size: 1.15rem; }
+.day-name { font-size: 0.82rem; font-weight: 700; color: var(--muted); }
+.day-rain { font-size: 0.8rem; color: var(--info); font-weight: 600; }
+
+/* "The last 20 years" */
+.hist-grid { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.season-hist { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+.season-hist > * { min-width: 0; }
+.hist-rows { display: grid; gap: 12px; }
+.hist-row { display: flex; align-items: center; gap: 12px; }
+.hist-row > img { width: 36px; height: 36px; flex: none; }
+.meter-track .fill.low { background: var(--low); }
+.meter-track .fill.moderate { background: var(--amber); }
+.meter-track .fill.high { background: var(--high); }
+.hist-water { display: flex; align-items: flex-start; gap: 10px; margin: 0; padding: 10px 12px; border-radius: 12px; background: var(--info-bg); }
+.hist-water img { width: 30px; height: 30px; flex: none; }
+
+@media (max-width: 1000px) { .hist-grid { grid-template-columns: minmax(0, 1fr); } }
+/* Cards hold a wide year table (it scrolls inside): never let it widen the page. */
+.hist-grid > *, .farm-charts > * { min-width: 0; }
+@media (max-width: 560px) {
+  .crop-pick { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .week-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .verdict { flex-direction: column; align-items: flex-start; }
+  .meter-top { flex-wrap: wrap; }
+  .meter-top strong { white-space: normal; }
+}
+
+/* ---------- Floating AI helper button (placeholder: "Coming soon") ---------- */
+.chatbot { position: fixed; right: 24px; bottom: 24px; z-index: 1200; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.chatbot-btn {
+  position: relative; width: 64px; height: 64px; border-radius: 50%; border: 0; cursor: pointer;
+  display: grid; place-items: center; background: var(--accent); color: var(--accent-text);
+  box-shadow: 0 8px 24px rgb(20 60 35 / 0.35);
+}
+.chatbot-btn:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+.chatbot-badge {
+  position: absolute; top: -4px; right: -4px; padding: 2px 6px; border-radius: 999px;
+  background: var(--amber); color: #1c2420; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.5px;
+}
+.chatbot-tip {
+  display: grid; gap: 2px; padding: 10px 14px; border-radius: 12px; text-align: right;
+  background: var(--surface); color: var(--text); box-shadow: var(--shadow-pill); border: 1px solid var(--border);
+  opacity: 0; transform: translateY(6px); pointer-events: none; transition: opacity 0.15s, transform 0.15s;
+}
+.chatbot-tip strong { font-size: 0.95rem; }
+.chatbot-tip span { font-size: 0.9rem; font-weight: 700; color: var(--amber); }
+.chatbot:hover .chatbot-tip, .chatbot:focus-within .chatbot-tip, .chatbot.open .chatbot-tip { opacity: 1; transform: none; }
+@media (max-width: 720px) {
+  .chatbot { right: 16px; bottom: 16px; }
+  .chatbot-btn { width: 56px; height: 56px; }
+}
+@media print { .chatbot { display: none; } }

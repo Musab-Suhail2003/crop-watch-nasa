@@ -58,6 +58,41 @@ const HEAT_SCALE: LegendScale = {
   caption: "Daytime temperature of the ground surface, in °C (NASA gives Kelvin; converted here). Bare ground in summer can pass 50°C.",
 };
 
+/*
+ * MODIS_NDVI.xml and SRTM_Color_Index.xml space their colours unevenly in value, so stops are taken every
+ * ~10% along NASA's own colour list (as NASA's legend draws it) and ticks are placed where each value falls.
+ */
+const GREEN_SCALE: LegendScale = {
+  stops: ["241,236,236", "229,219,205", "200,181,165", "176,149,125", "154,110,89", "150,186,32", "100,166,1", "67,141,1", "29,117,1", "0,96,1", "0,24,1"].map(rgb),
+  low: "Bare or dry land",
+  high: "Thick green crops",
+  ticks: [
+    { at: 0, label: "0" },
+    { at: 0.288, label: "0.2" },
+    { at: 0.525, label: "0.4" },
+    { at: 0.719, label: "0.6" },
+    { at: 0.863, label: "0.8" },
+    { at: 1, label: "1" },
+  ],
+  caption: "Green cover (NDVI, 0 to 1). Brown = bare, dry or harvested land; green = growing plants; dark green = thick, healthy crops.",
+};
+
+const HEIGHT_SCALE: LegendScale = {
+  stops: ["0,117,39", "0,146,58", "3,175,76", "82,196,48", "192,221,11", "206,197,10", "202,155,15", "176,92,28", "171,115,115", "194,194,194", "255,255,255"].map(rgb),
+  low: "Low, flat land",
+  high: "High mountains",
+  ticks: [
+    { at: 0, label: "0 m" },
+    // "m" only on the ends: the middle ticks sit close together and would overlap on a phone.
+    { at: 0.291, label: "500" },
+    { at: 0.429, label: "1,000" },
+    { at: 0.587, label: "2,000" },
+    { at: 0.803, label: "4,000" },
+    { at: 0.988, label: "8,000 m" },
+  ],
+  caption: "Height above sea level. Green = low, flat land; yellow and brown = hills; grey and white = high mountains.",
+};
+
 const RAIN_SCALE: LegendScale = {
   stops: ["0,118,78", "0,148,36", "30,178,0", "123,209,0", "239,237,0", "255,152,15", "255,77,45", "250,0,0", "181,0,0", "113,0,0", "51,0,0"].map(rgb),
   low: "Light rain",
@@ -79,7 +114,7 @@ export const NASA_LAYERS: NasaLayer[] = [
     what: "How much living green vegetation there was, as an 8-day composite at 250 m.",
     read: "Greener means more growing plants; pale or brown means bare, dry or harvested land. Slide through the year to see when fields are green and when they lie bare.",
     caveat: "It cannot tell crop residue from bare soil, and one pixel is bigger than most fields.",
-    legend: "https://gibs.earthdata.nasa.gov/legends/MODIS_NDVI_H.svg",
+    scale: GREEN_SCALE,
   },
   {
     key: "rain",
@@ -135,7 +170,7 @@ export const NASA_LAYERS: NasaLayer[] = [
     what: "Height above sea level from the Shuttle Radar Topography Mission.",
     read: "Where colours change quickly over a short distance the land slopes: rain runs off faster and soil erodes more easily there.",
     caveat: "Elevation only; erosion risk also depends on soil, rain intensity and ground cover.",
-    legend: "https://gibs.earthdata.nasa.gov/legends/SRTM_Color_Index_H.png",
+    scale: HEIGHT_SCALE,
   },
 ];
 
